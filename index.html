@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Happy Birthday Melody</title>
+
+<!-- GSAP CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: #fff;
+    color: #000;
+    overflow-x: hidden;
+  }
+  .page {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+  .page.active {
+    display: flex;
+  }
+  h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 2rem;
+    margin-top: 0;
+    font-weight: normal;
+  }
+  .message {
+    font-size: 2rem;
+    margin-top: 30px;
+  }
+  .special {
+    background: #1493e7;
+    color: white;
+    padding: 0 8px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .rotate-smile {
+    display: inline-block;
+    transform-origin: center center;
+  }
+  .big-so {
+    font-size: 6rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  .face-container {
+    position: relative;
+    margin-top: 30px;
+  }
+  .face-container img.face {
+    width: 180px;
+    border-radius: 50%;
+    border: 6px solid #1493e7;
+    z-index: 10;
+    position: relative;
+  }
+  .balloon {
+    position: absolute;
+    width: 200px;
+    opacity: 0.9;
+    user-select: none;
+  }
+  .balloon1 { top: -40px; left: -70px; }
+  .balloon2 { top: 10px; left: 90px; }
+  .balloon3 { top: 80px; left: -40px; }
+  .hat {
+    position: absolute;
+    top: -110px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    z-index: 20;
+    user-select: none;
+  }
+  .below-face-text {
+    margin-top: 20px;
+    font-weight: 700;
+    color: #1493e7;
+  }
+  .below-face-text small {
+    display: block;
+    font-weight: normal;
+    font-size: 1.2rem;
+  }
+</style>
+</head>
+<body>
+
+<audio class="song" src="music_hbd.mp3" loop></audio>
+
+<div id="page1" class="page active">
+  <h1>Hi Melody</h1>
+  <h2>i like ur name btw</h2>
+</div>
+
+<div id="page2" class="page">
+  <div class="message" id="msg2">That's what I was going to do.</div>
+</div>
+
+<div id="page3" class="page">
+  <div class="message" id="msg3a">but then i stopped</div>
+</div>
+
+<div id="page4" class="page">
+  <div class="message" id="msg4b">i realised i want to do something <span class="special">special</span></div>
+</div>
+
+<div id="page5" class="page">
+  <div class="message" id="msg5c">because,</div>
+</div>
+
+<div id="page6" class="page">
+  <div class="message" id="msg6d">You are special <span class="rotate-smile">:)</span></div>
+</div>
+
+<div id="page7" class="page">
+  <div class="big-so">SO</div>
+</div>
+
+<div id="page8" class="page">
+  <div class="face-container">
+    <img src="face.png" alt="Face" class="face" />
+    <img src="ballon1.svg" class="balloon balloon1" alt="Balloon" />
+    <img src="ballon2.svg" class="balloon balloon2" alt="Balloon" />
+    <img src="ballon3.svg" class="balloon balloon3" alt="Balloon" />
+    <img src="hat.svg" class="hat" alt="Hat" />
+  </div>
+  <div class="below-face-text">
+    <strong style="font-size:2rem;">HAPPYBIRTHDAY</strong>
+    <small style="font-size:1.5rem;">may luck always be with u</small>
+  </div>
+</div>
+
+<div id="page9" class="page">
+  <div class="message" id="msg9">Happy birthday wish u all the best! Have a great day and lots of happiness!</div>
+</div>
+
+<script>
+  const audio = document.querySelector('.song');
+  const pages = [
+    'page1','page2','page3','page4','page5','page6','page7','page8','page9'
+  ];
+  
+  function showPage(i){
+    pages.forEach((id, idx) => {
+      document.getElementById(id).classList.toggle('active', idx === i);
+    });
+  }
+
+  async function sleep(ms){ return new Promise(resolve => setTimeout(resolve, ms)); }
+
+  async function animateSequence(){
+    // Play music after user confirmation
+    const result = await Swal.fire({
+      title: 'Play music?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    });
+    if(result.isConfirmed){
+      audio.play();
+    }
+    
+    // Page 1
+    showPage(0);
+    await sleep(3500);
+    await gsap.to('#page1 h1', {duration: 1, opacity: 0, y: -30});
+    await gsap.to('#page1 h2', {duration: 1, opacity: 0, y: -30, delay: 0.3});
+    await sleep(1000);
+
+    // Page 2
+    showPage(1);
+    await gsap.fromTo('#msg2', {opacity:0, y: 20}, {opacity:1, y:0, duration: 1});
+    await sleep(3000);
+    await gsap.to('#msg2', {opacity:0, y:-20, duration:1});
+    await sleep(1000);
+
+    // Page 3
+    showPage(2);
+    await gsap.fromTo('#msg3a', {opacity:0, y: 20}, {opacity:1, y:0, duration: 1});
+    await sleep(3000);
+    await gsap.to('#msg3a', {opacity:0, y:-20, duration:1});
+    await sleep(1000);
+
+    // Page 4
+    showPage(3);
+    await gsap.fromTo('#msg4b', {opacity:0, y: 20}, {opacity:1, y:0, duration: 1});
+    await gsap.to('#msg4b .special', {backgroundColor: '#0d6efd', duration: 0.8, repeat: 1, yoyo:true});
+    await sleep(3000);
+    await gsap.to('#msg4b', {opacity:0, y:-20, duration:1});
+    await sleep(1000);
+
+    // Page 5
+    showPage(4);
+    await gsap.fromTo('#msg5c', {opacity:0, y: 20}, {opacity:1, y:0, duration: 1});
+    await sleep(3000);
+    await gsap.to('#msg5c', {opacity:0, y:-20, duration:1});
+    await sleep(1000);
+
+    // Page 6
+    showPage(5);
+    await gsap.fromTo('#msg6d', {opacity:0, y: 20}, {opacity:1, y:0, duration: 1});
+    await sleep(3000);
+    await gsap.to('#msg6d', {opacity:0, y:-20, duration:1});
+    await sleep(1000);
+
+    // Page 7
+    showPage(6);
+    await gsap.fromTo('.big-so', {opacity:0, y: 20}, {opacity:1, y:0, duration: 1});
+    await sleep(3000);
+    await gsap.to('.big-so', {opacity:0, y:-20, duration:1});
+    await sleep(1000);
+
+    // Page 8
+    showPage(7);
+    await gsap.fromTo('.face-container', {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 1});
+    await gsap.fromTo('.below-face-text', {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 1, delay: 0.5});
+    await sleep(5000);
+
+    // Page 9
+    showPage(8);
+    await gsap.fromTo('#msg9', {opacity:0, y: 20}, {opacity:1, y:0, duration: 1});
+    // selesai
+  }
+
+  window.onload = () => {
+    animateSequence();
+  }
+</script>
+
+</body>
+</html>
